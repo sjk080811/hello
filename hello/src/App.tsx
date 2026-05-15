@@ -30,6 +30,18 @@ const quotes = [
   },
 ]
 
+const notices = [
+  { title: "제8기 구암고등학교운영위원회 선출...", date: "2026-04-15" },
+  { title: "제8기 구암고등학교운영위원회 지역...", date: "2026-04-10" },
+  { title: "2026학년도 학교운영계획서 안내", date: "2026-03-28" },
+]
+
+const newsletters = [
+  { title: "2026학년도 「디벗」 학생·학부모 관...", date: "2026-05-07" },
+  { title: "2026년 2,3학년 결핵(흉부 엑스선)...", date: "2026-05-02" },
+  { title: "5월 가정통신문 안내", date: "2026-04-28" },
+]
+
 const sideIssues = [
   {
     title: "기말고사 일정 안내",
@@ -47,16 +59,9 @@ const sideIssues = [
 
 /* ===== 컴포넌트 ===== */
 function App() {
-  const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeNav, setActiveNav] = useState('인물소개')
   const [quoteIdx, setQuoteIdx] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   // 명언 자동 전환
   useEffect(() => {
@@ -88,9 +93,9 @@ function App() {
       iconClass: 'meal',
     },
     {
-      icon: '⚔️',
+      icon: '📢',
       title: '구암 대전',
-      desc: '학생들의 열정이 가득한 대결의 장',
+      desc: '구암 대신 전해드립니다',
       iconClass: 'battle',
     },
   ]
@@ -106,17 +111,29 @@ function App() {
 
   return (
     <>
-      {/* ===== 네비게이션 바 ===== */}
-      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="main-nav">
-        <div className="nav-container">
-          <div className="nav-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="nav-logo-icon">구</div>
+      {/* ===== 상단 바 ===== */}
+      <div className="top-bar" id="top-bar">
+        <div className="top-bar-inner">
+          <div className="top-bar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <div className="top-bar-logo-icon">구</div>
             <div>
-              <div className="nav-logo-text">구암고등학교</div>
-              <div className="nav-logo-sub">Guam High School</div>
+              <div className="top-bar-logo-text">구암고등학교</div>
+              <div className="top-bar-logo-sub">GUAM HIGH SCHOOL</div>
             </div>
           </div>
+          <div className="top-bar-links">
+            <a href="#" id="link-sitemap">사이트맵</a>
+            <span className="divider"></span>
+            <a href="#" id="link-home">홈</a>
+            <span className="divider"></span>
+            <a href="#" id="link-login">로그인</a>
+          </div>
+        </div>
+      </div>
 
+      {/* ===== 네비게이션 바 ===== */}
+      <nav className="navbar" id="main-nav">
+        <div className="nav-container">
           <div className={`nav-links ${mobileOpen ? 'open' : ''}`}>
             {navItems.map((item) => (
               <button
@@ -146,74 +163,120 @@ function App() {
         </div>
       </nav>
 
-      {/* ===== 히어로 섹션 ===== */}
-      <section className="hero-section" id="hero">
-        <div className="hero-badge">
-          <span className="hero-badge-dot"></span>
-          2026학년도 구암고등학교
-        </div>
-        <h1 className="hero-title">
-          꿈을 향해 함께<br />
-          <span className="highlight">성장하는 구암</span>
-        </h1>
-        <p className="hero-subtitle">
-          학생 중심의 열린 교육, 미래를 향한 도전.<br />
-          구암고등학교의 모든 이야기를 만나보세요.
-        </p>
-        <div className="hero-stats">
-          <div className="hero-stat">
-            <span className="hero-stat-number">1,200+</span>
-            <span className="hero-stat-label">재학생</span>
+      {/* ===== 히어로 배너 ===== */}
+      <div className="hero-banner" id="hero">
+        <div className="hero-center-content">
+          <div className="hero-school-badge">
+            <span className="dot"></span>
+            2026학년도 구암고등학교
           </div>
-          <div className="hero-stat">
-            <span className="hero-stat-number">98%</span>
-            <span className="hero-stat-label">진학률</span>
-          </div>
-          <div className="hero-stat">
-            <span className="hero-stat-number">50+</span>
-            <span className="hero-stat-label">동아리</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== 메뉴 카드 섹션 ===== */}
-      <section className="section" id="menu-section">
-        <div className="section-header">
-          <div className="section-tag">Menu</div>
-          <h2 className="section-title">바로가기</h2>
-          <p className="section-desc">구암고등학교의 다양한 콘텐츠를 둘러보세요</p>
-        </div>
-        <div className="nav-cards">
-          {navCardData.map((card, i) => (
-            <div
-              className="nav-card"
-              key={card.title}
-              onClick={() => setActiveNav(card.title)}
-              style={{ animationDelay: `${i * 0.1}s`, animation: 'fadeInUp 0.6s ease-out both' }}
-              id={`card-${card.title}`}
-            >
-              <div className={`nav-card-icon ${card.iconClass}`}>{card.icon}</div>
-              <div className="nav-card-title">{card.title}</div>
-              <div className="nav-card-desc">{card.desc}</div>
-              <div className="nav-card-arrow">자세히 보기 →</div>
+          <h1 className="hero-title">
+            함께 꿈꾸며 세상을 바꿀<br />
+            <span className="highlight">구암고등학교</span>
+          </h1>
+          <p className="hero-subtitle">
+            창의적 융합인재를 육성하는 구암고등학교
+          </p>
+          <div className="hero-stats">
+            <div className="hero-stat">
+              <span className="hero-stat-number">1,200+</span>
+              <span className="hero-stat-label">재학생</span>
             </div>
-          ))}
+            <div className="hero-stat">
+              <span className="hero-stat-number">98%</span>
+              <span className="hero-stat-label">진학률</span>
+            </div>
+            <div className="hero-stat">
+              <span className="hero-stat-number">50+</span>
+              <span className="hero-stat-label">동아리</span>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* ===== 오늘의 이슈 ===== */}
-      <section className="section issue-section" id="today-issue">
-        <div className="section-header">
-          <div className="section-tag">Today's Issue</div>
-          <h2 className="section-title">오늘의 이슈</h2>
-          <p className="section-desc">구암고에서 지금 가장 핫한 소식</p>
+      {/* ===== 알려드립니다 바 ===== */}
+      <div className="announce-bar" id="announce">
+        <div className="announce-bar-inner">
+          <span className="announce-icon">📢</span>
+          <span className="announce-label">알려드립니다</span>
+          <span className="announce-text">구암고등학교 홈페이지 방문을 환영합니다!!</span>
+        </div>
+      </div>
+
+      {/* ===== 메인 콘텐츠 ===== */}
+      <div className="main-content">
+
+        {/* 바로가기 카드 */}
+        <div className="section" id="menu-section">
+          <div className="section-header">
+            <div className="section-icon">📌</div>
+            <h2 className="section-title">바로가기</h2>
+            <div className="section-title-bar"></div>
+          </div>
+          <div className="nav-cards">
+            {navCardData.map((card, i) => (
+              <div
+                className="nav-card"
+                key={card.title}
+                onClick={() => setActiveNav(card.title)}
+                style={{ animation: `fadeInUp 0.5s ease-out ${i * 0.08}s both` }}
+                id={`card-${card.title}`}
+              >
+                <div className={`nav-card-icon ${card.iconClass}`}>{card.icon}</div>
+                <div className="nav-card-title">{card.title}</div>
+                <div className="nav-card-desc">{card.desc}</div>
+                <div className="nav-card-arrow">자세히 보기 →</div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="issue-container">
+        {/* 공지사항 & 가정통신문 */}
+        <div className="section" id="info-section">
+          <div className="info-panels">
+            <div className="info-panel" id="notices-panel">
+              <div className="info-panel-header">
+                <h3>📋 공지사항</h3>
+                <button className="more-btn" aria-label="더보기">+</button>
+              </div>
+              <ul className="info-panel-list">
+                {notices.map((item, i) => (
+                  <li key={i}>
+                    <span>{item.title}</span>
+                    <span className="date">{item.date}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="info-panel" id="newsletter-panel">
+              <div className="info-panel-header">
+                <h3>📮 가정통신문</h3>
+                <button className="more-btn" aria-label="더보기">+</button>
+              </div>
+              <ul className="info-panel-list">
+                {newsletters.map((item, i) => (
+                  <li key={i}>
+                    <span>{item.title}</span>
+                    <span className="date">{item.date}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* 오늘의 이슈 */}
+        <div className="section" id="today-issue">
+          <div className="section-header">
+            <div className="section-icon">🔥</div>
+            <h2 className="section-title">오늘의 이슈</h2>
+            <div className="section-title-bar"></div>
+          </div>
+
           <div className="issue-main" id="main-issue">
             <div className="issue-image-wrapper">
               <div className="issue-image-placeholder">
-                📢
+                📰
                 <span>구암고등학교 소식</span>
               </div>
               <div className="issue-badge">
@@ -243,7 +306,6 @@ function App() {
           </div>
 
           <div className="issue-grid">
-            <div></div>
             <div className="issue-side">
               {sideIssues.map((issue, i) => (
                 <div className="issue-side-card" key={i} id={`side-issue-${i}`}>
@@ -255,56 +317,98 @@ function App() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== 명언 글귀 ===== */}
-      <section className="section quotes-section" id="quotes">
-        <div className="section-header">
-          <div className="section-tag">Daily Quote</div>
-          <h2 className="section-title">오늘의 명언</h2>
-          <p className="section-desc">하루를 시작하는 지혜로운 한마디</p>
-        </div>
-
-        <div className="quote-card" id="quote-card">
-          <div className="quote-decoration">"</div>
-          <p className="quote-text" key={quoteIdx}>
-            {currentQuote.text}
-          </p>
-          <div className="quote-divider"></div>
-          <div className="quote-author">{currentQuote.author}</div>
-          <div className="quote-source">{currentQuote.source}</div>
-
-          <div className="quote-nav">
-            <button
-              className="quote-nav-btn"
-              onClick={() => setQuoteIdx((prev) => (prev - 1 + quotes.length) % quotes.length)}
-              aria-label="이전 명언"
-              id="quote-prev"
-            >
-              ←
-            </button>
-            <div className="quote-dots">
-              {quotes.map((_, i) => (
-                <span
-                  key={i}
-                  className={`quote-dot ${i === quoteIdx ? 'active' : ''}`}
-                  onClick={() => setQuoteIdx(i)}
-                />
+            <div className="issue-side">
+              {sideIssues.map((issue, i) => (
+                <div className="issue-side-card" key={i + 3} id={`side-issue-extra-${i}`}>
+                  <div className="issue-side-num">0{i + 4}</div>
+                  <div className="issue-side-content">
+                    <h4>{issue.title}</h4>
+                    <p>{issue.desc}</p>
+                  </div>
+                </div>
               ))}
             </div>
-            <button
-              className="quote-nav-btn"
-              onClick={() => setQuoteIdx((prev) => (prev + 1) % quotes.length)}
-              aria-label="다음 명언"
-              id="quote-next"
-            >
-              →
-            </button>
           </div>
         </div>
-      </section>
+
+        {/* 명언 글귀 */}
+        <div className="section" id="quotes">
+          <div className="section-header">
+            <div className="section-icon">💬</div>
+            <h2 className="section-title">오늘의 명언</h2>
+            <div className="section-title-bar"></div>
+          </div>
+
+          <div className="quote-card" id="quote-card">
+            <div className="quote-decoration">"</div>
+            <p className="quote-text" key={quoteIdx}>
+              {currentQuote.text}
+            </p>
+            <div className="quote-divider"></div>
+            <div className="quote-author">{currentQuote.author}</div>
+            <div className="quote-source">{currentQuote.source}</div>
+
+            <div className="quote-nav">
+              <button
+                className="quote-nav-btn"
+                onClick={() => setQuoteIdx((prev) => (prev - 1 + quotes.length) % quotes.length)}
+                aria-label="이전 명언"
+                id="quote-prev"
+              >
+                ←
+              </button>
+              <div className="quote-dots">
+                {quotes.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`quote-dot ${i === quoteIdx ? 'active' : ''}`}
+                    onClick={() => setQuoteIdx(i)}
+                  />
+                ))}
+              </div>
+              <button
+                className="quote-nav-btn"
+                onClick={() => setQuoteIdx((prev) => (prev + 1) % quotes.length)}
+                aria-label="다음 명언"
+                id="quote-next"
+              >
+                →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ===== 퀵메뉴 (오른쪽 스크롤바) ===== */}
+      <aside className="quick-menu" id="quick-menu">
+        <div className="quick-menu-title">
+          <span className="icon">☰</span>
+          Quick<br />menu
+        </div>
+        <button className="quick-menu-item" id="qm-library">
+          <span className="qm-icon">📚</span>
+          <span className="qm-label">학교도서관</span>
+        </button>
+        <button className="quick-menu-item" id="qm-location">
+          <span className="qm-icon">📍</span>
+          <span className="qm-label">찾아오시는길</span>
+        </button>
+        <button className="quick-menu-item" id="qm-forms">
+          <span className="qm-icon">📝</span>
+          <span className="qm-label">서식자료</span>
+        </button>
+        <button className="quick-menu-item" id="qm-schedule">
+          <span className="qm-icon">📅</span>
+          <span className="qm-label">학사일정</span>
+        </button>
+        <button
+          className="quick-menu-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          id="qm-top"
+        >
+          TOP
+        </button>
+      </aside>
 
       {/* ===== 푸터 ===== */}
       <footer className="footer" id="footer">
